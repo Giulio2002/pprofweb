@@ -1,0 +1,24 @@
+pipeline:
+  publish-docker-image:
+    image: plugins/kaniko
+    settings:
+      registry: tuxpa.in
+      repo: tuxpa.in/a/pprofweb
+      tags: latest,v1-${CI_COMMIT_SHA:0:8}
+      dockerfile: Dockerfile
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+  publish-stable:
+    image: plugins/kaniko
+    event: tag
+    settings:
+      registry: tuxpa.in
+      repo: tuxpa.in/a/pprofweb
+      tags: stable
+      dockerfile: Dockerfile
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
